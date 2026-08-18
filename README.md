@@ -1,51 +1,87 @@
-# RAWGraphs Custom Chart template
+# Parallel Sets for RAWGraphs <img src="https://raw.githubusercontent.com/mikima/rawgraphs-parset/master/src/parset/parset_icon.svg" alt="parallel sets icon" height="40px" style="vertical-align: middle"/>
 
-This template allows you to create and utilize your own custom chart within the RAWGraphs interface. Custom charts are stored locally on your machine but can be shared with others by downloading the `.rawgraphs` project file and sending it to them.
+This custom chart is intended to be used inside the [RAWGraphs app](https://app.rawgraphs.io/).
 
-Within a custom chart, you have the ability to define the chart variables and visual options that you wish to expose. By defining a JavaScript function and utilizing these inputs, you can generate a chart. Charts can be generated as SVG, canvas, or HTML nodes.
+## What are Parallel Sets
 
-When you load the custom chart in RAWGraphs, the necessary interface components will be automatically generated based on your chart specifications.
+![](https://raw.githubusercontent.com/mikima/rawgraphs-parset/master/src/parset/parset_thumb.svg)
 
-Outlined below are the fundamental operations you can perform to initiate a new project.
+Parallel Sets show how two or more categorical dimensions relate to each other. Each dimension is drawn as a row of stacked bars — one per category, sized by frequency — with ribbons flowing between adjacent rows to show how records split across categories, similarly to a Sankey diagram read top-to-bottom. This implementation is built on top of the [d3-parsets](https://github.com/mikima/d3-parsets) layout, and lets you switch between straight, curved or line-style ribbons, weight rows by a numeric value (or just count records), and color flows by their originating category.
 
-For more detailed instructions on building custom charts, read the following documentation:
+## Installation
 
-* [Create your first chart](docs/add-a-new-chart.md)
-* [Good practices and conventions](docs/good-practices.md)
-* [RAWgraphs core library technical documentation](https://rawgraphs.github.io/rawgraphs-core/docs/)
+- Build the chart bundle yourself (see [Edit the code](#edit-the-code) below), or, once available, download the latest release asset (`index.umd.js`) from the [Releases](https://github.com/mikima/rawgraphs-parset/releases) tab.
+- In [RAWGraphs](https://app.rawgraphs.io/) load a dataset. You can try the [sample Titanic dataset](https://raw.githubusercontent.com/mikima/rawgraphs-parset/master/example/datasets/titanic.csv).
+- In section `2. Choose a chart`, scroll down and click `Load your chart`.
+- Select the `Load from file` tab, then drag and drop the bundle file.
+- Click `Load your chart`, acknowledge the pop-up about external code, and continue.
+- The Parallel Sets chart will now be available in your chart list.
 
-## Install
+## Tutorial
 
-To create a custom chart you'll need [node.js](https://nodejs.org/en) installed on your computer.
+Build a Parallel Sets chart using the sample Titanic dataset.
 
-In terminal navigate the folder in wich you cloned this template and run:
+#### Dataset
+
+Load the dataset at [example/datasets/titanic.csv](https://raw.githubusercontent.com/mikima/rawgraphs-parset/master/example/datasets/titanic.csv) — the classic aggregated Titanic survival table. Columns: `Class`, `Sex`, `Age`, `Survived`, `Freq`.
+
+#### Chart Selection
+
+Choose **Parallel Sets**. If you do not see it, follow the steps in [Installation](#installation).
+
+#### Mapping
+
+Drag and drop dimensions as follows:
+
+- `Class`, `Sex`, `Age`, `Survived` → `Sets`, in this order (at least 2 columns are required; you can map more)
+- `Freq` → `Size` (optional — leave it unmapped to count each row as 1)
+
+#### Customize
+
+Key visual options you can tune in RAWGraphs:
+
+- **Chart**: set `Bars thickness` and `Spacing between categories` to control the layout; switch `Ribbons shape` between `Ribbon (filled)` and `Line (stroked centerline)`; use `Ribbons curvature` to bow ribbons into an S-curve (ignored when the shape is `Line`); adjust `Ribbons opacity`.
+- **Colors**: choose a palette in `Color scale` to color ribbons by their category in the first mapped set.
+- **Labels**: toggle `Show set names`, `Show category names` and `Show category values`.
+- **Artboard**: adjust margins, and toggle `Show legend` / `Legend width`.
+
+## Contribute
+
+If you'd like to contribute, follow the RAWGraphs [custom template guide](https://github.com/rawgraphs/custom-rawcharts-template).
+
+## Edit the code
+
+### Install dependencies
 
 ```sh
 npm install
 ```
 
-## Run Sandbox
+### Run Sandbox
 
-While developing your custom chart, you can see it in realtime by running the sandbox environment.
-
-In terminal navigate the folder in wich you cloned this template and run:
+Modify the chart locally with live reload.
 
 ```sh
 npm run sandbox
 ```
 
-You can find your charts at [http://localhost:9000](http://localhost:9000)
+Open [http://localhost:9000](http://localhost:9000) to view the sandbox. Four example configurations are available:
 
-## Build
+- `parset01-straightribbons` — default look, straight-sided ribbons
+- `parset02-rowcounts` — no `Size` mapped, each row counts as 1
+- `parset03-curvedribbons` — ribbons bowed into an S-curve (`tension` < 1)
+- `parset04-lineribbons` — ribbons drawn as stroked centerlines instead of filled shapes
 
-When you are satisfied with your project, you can build the js bundle to be used in the RAWGraphs interface.
+### Build
 
-In terminal navigate the folder in wich you cloned this template and run:
+Create the bundle to load in RAWGraphs.
 
 ```sh
 npm run build
 ```
 
-This will generate a folder named `lib` in which you will find three files.
+The `lib/index.umd.js` file is the bundle you can load into RAWGraphs.
 
-The one named `index.umd.js` is the bundle that can be loaded by RAWGraphs. You cna rename it as you prefer.
+## Credits
+
+Layout powered by [d3-parsets](https://github.com/mikima/d3-parsets). Chart implementation built on the RAWGraphs [custom-rawcharts-template](https://github.com/rawgraphs/custom-rawcharts-template).

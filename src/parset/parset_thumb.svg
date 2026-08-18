@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="rawgraphs-icons" xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
+  <defs>
+    <style>
+      .cls-1 { fill: #06c26c; }
+      .cls-2 { fill: #95e5c0; }
+    </style>
+  </defs>
+  <g id="primary">
+    <rect class="cls-1" x="8" y="12" width="10" height="6" />
+    <rect class="cls-1" x="8" y="24" width="10" height="14" />
+    <rect class="cls-1" x="8" y="42" width="10" height="6" />
+    <rect class="cls-2" x="38" y="10" width="10" height="10" />
+    <rect class="cls-2" x="38" y="24" width="10" height="6" />
+    <rect class="cls-2" x="38" y="34" width="10" height="14" />
+    <path class="cls-1" d="M18,15 C28,15 28,15 38,15" fill="none" stroke="#06c26c" stroke-width="2" opacity="0.6" />
+    <path class="cls-1" d="M18,31 C28,31 28,27 38,27" fill="none" stroke="#06c26c" stroke-width="2" opacity="0.6" />
+    <path class="cls-2" d="M18,45 C28,45 28,41 38,41" fill="none" stroke="#95e5c0" stroke-width="2" opacity="0.6" />
+  </g>
+</svg>

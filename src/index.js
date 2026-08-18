@@ -1,1 +1,1 @@
-export { default as hellochart } from './hellochart'
+export { default as parset } from './parset'
