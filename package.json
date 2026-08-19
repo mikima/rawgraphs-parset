@@ -1,6 +1,6 @@
 {
   "name": "rawgraphs-chart-parset",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Parallel Sets custom chart for RAWGraphs, built on d3-parsets",
   "jsdelivr": "lib/index.umd.js",
   "unpkg": "lib/index.umd.js",
