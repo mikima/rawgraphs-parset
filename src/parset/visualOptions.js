@@ -57,10 +57,27 @@ export const visualOptions = {
 
   spacing: {
     type: 'number',
-    label: 'Total spacing between categories (shared per set)',
+    label: 'Total category spacing',
     default: 4,
     min: 0,
     group: 'chart',
+  },
+
+  sortCategoriesBy: {
+    type: 'text',
+    label: 'Sort sets in step',
+    group: 'chart',
+    options: [
+      { label: 'Original (dataset order)', value: 'original' },
+      { label: 'Name (A-Z)', value: 'name' },
+      { label: 'Size (descending)', value: 'sizeDescending' },
+      { label: 'Size (ascending)', value: 'sizeAscending' },
+    ],
+    default: 'original',
+    // one dropdown per column mapped to "sets" — each set can be sorted
+    // independently (RAWGraphs expands this into an array of values, one
+    // per mapped column, in the same order as mapping.sets.value)
+    repeatFor: 'sets',
   },
 
   linkShape: {
@@ -76,7 +93,7 @@ export const visualOptions = {
 
   tension: {
     type: 'number',
-    label: 'Ribbons curvature (1 = straight)',
+    label: 'Ribbons curvature (0-1)',
     default: 1,
     step: 0.1,
     min: 0,

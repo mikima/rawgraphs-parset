@@ -35,6 +35,47 @@ const lineLink = d3
   .x((p) => p.category.x + p.x + p.dx / 2)
   .y((p) => p.y)
 
+const sortComparators = {
+  name: (a, b) => d3.ascending(a.name, b.name),
+  sizeDescending: (a, b) => d3.descending(a.count, b.count),
+  sizeAscending: (a, b) => d3.ascending(a.count, b.count),
+}
+
+// Builds the categorySort function d3-parsets expects: given a dimension
+// (set) name, return a comparator for its categories, or a falsy value to
+// leave that set's order untouched. `sortModes` has one entry per mapped
+// set column (RAWGraphs "repeatFor: sets" expands the option into an
+// array, in the same order as setColumns), so each set can be sorted
+// independently.
+function makeCategorySort(sortModes, data, setColumns) {
+  // "original" needs, per set column, the row index where each category
+  // value is first seen in the (mapped) dataset — computed lazily, only
+  // for columns actually sorted that way.
+  const firstSeenByColumn = new Map()
+  function firstSeenFor(col) {
+    if (!firstSeenByColumn.has(col)) {
+      const firstSeen = new Map()
+      data.forEach((row) => {
+        const key = String(row[col])
+        if (!firstSeen.has(key)) firstSeen.set(key, firstSeen.size)
+      })
+      firstSeenByColumn.set(col, firstSeen)
+    }
+    return firstSeenByColumn.get(col)
+  }
+
+  return function (dimensionName) {
+    const index = setColumns.indexOf(dimensionName)
+    const mode = (sortModes && sortModes[index]) || 'original'
+    if (mode === 'original') {
+      const firstSeen = firstSeenFor(dimensionName)
+      return (a, b) =>
+        d3.ascending(firstSeen.get(a.name), firstSeen.get(b.name))
+    }
+    return sortComparators[mode]
+  }
+}
+
 export function render(
   svgNode,
   data,
@@ -59,6 +100,7 @@ export function render(
     // chart
     nodeThickness,
     spacing,
+    sortCategoriesBy,
     linkShape,
     tension,
     ribbonOpacity,
@@ -90,6 +132,7 @@ export function render(
     .spacing(spacing)
     .nodeThickness(nodeThickness)
     .dimensions(setColumns)
+    .categorySort(makeCategorySort(sortCategoriesBy, data, setColumns))
     .value((d) => d.__value)(data)
 
   const svg = d3.select(svgNode)
